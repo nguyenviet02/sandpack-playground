@@ -137,6 +137,7 @@ export default function App() {
   return (
     <SandpackProvider
       template="vite-react"
+			// Custom setup for the sandbox
       customSetup={{
         dependencies: {
           react: '^18.2.0',
@@ -146,6 +147,7 @@ export default function App() {
         },
         entry: '/App.jsx',
       }}
+			// List of files to be shown in the sandbox
       files={{
         '/App.jsx': {
           code: appCode,

@@ -1,99 +1,34 @@
-# TSX Live Editor
+# Chart.js Sandbox
 
-A simple React application that allows you to write and preview TSX code in real-time without any build steps.
+An interactive sandbox for experimenting with Chart.js and React in real-time.
 
 ## Features
 
-- Write TSX code in the editor panel
-- See live preview in the preview panel
-- Syntax highlighting for TSX code
-- Error handling for compilation and runtime errors
-- Support for React hooks and TypeScript syntax
-- Debounced preview updates to prevent constant re-rendering while typing
-- Smart error messages that are more helpful than raw compiler errors
+- Live code editing with preview
+- Built-in Chart.js examples:
+  - Line Chart
+  - Bar Chart 
+  - Pie Chart
+- Real-time preview of chart changes
+- Powered by Sandpack and Vite
 
-## How it Works
+## How It Works
 
 This application uses:
-- `@babel/standalone` to transform TSX code to JavaScript on the client side
-- `@babel/preset-typescript` for TypeScript support
-- `react-simple-code-editor` for the code editor with syntax highlighting
-- `prismjs` for syntax highlighting
+- `@codesandbox/sandpack-react` to provide an interactive code sandbox
+- Vite for fast development and bundling
 
-The code you write is transformed using Babel and then executed in a sandboxed environment to create React components that are rendered in the preview panel.
+The sandbox allows you to edit chart examples and see the results immediately in the preview panel.
 
-## Usage
+## Chart Examples
 
-1. Write TSX code in the left editor panel
-2. The right panel will automatically show a live preview after you stop typing
-3. Error messages will be displayed if there are compilation or runtime errors
+The sandbox includes examples of:
 
-### Writing TSX Code
+1. **Line Chart** - Shows data trends over a sequence
+2. **Bar Chart** - Compares values across categories
+3. **Pie Chart** - Shows proportional distribution of data
 
-You can write your code in two ways:
-
-1. **Component with return statement** (recommended)
-```tsx
-function MyComponent() {
-  const [state, setState] = useState(0);
-  return <div>Component content</div>;
-}
-
-return <MyComponent />;
-```
-
-2. **Direct JSX/TSX** (will be automatically wrapped)
-```tsx
-<div>
-  <h1>Hello World</h1>
-  <p>This will be automatically wrapped in a component</p>
-</div>
-```
-
-### Available React Features
-
-- All standard React hooks (useState, useEffect, useRef, etc.)
-- TypeScript type annotations
-- JSX/TSX syntax
-- Event handlers
-
-### Example
-
-```tsx
-// Write a TSX component
-interface ButtonProps {
-  label: string;
-  onClick: () => void;
-}
-
-function Button({ label, onClick }: ButtonProps) {
-  return (
-    <button 
-      onClick={onClick} 
-      style={{ padding: '8px 16px', borderRadius: '4px' }}
-    >
-      {label}
-    </button>
-  );
-}
-
-function Counter() {
-  const [count, setCount] = useState(0);
-  
-  return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h2>Counter: {count}</h2>
-      <Button 
-        label="Increment" 
-        onClick={() => setCount(count + 1)} 
-      />
-    </div>
-  );
-}
-
-// Return the component to render it
-return <Counter />;
-```
+Each example demonstrates proper Chart.js setup with React, including the necessary component registrations.
 
 ## Development
 
@@ -106,10 +41,56 @@ pnpm dev
 
 # Build for production
 pnpm build
+
+# Preview production build
+pnpm preview
 ```
 
-## Limitations
+## Customizing Sandpack
 
-- No support for external npm packages
-- Limited TypeScript support (basic type checking only)
-- No file system access or imports from other files
+### Adding Dependencies
+
+Modify the `customSetup` object in the `SandpackProvider` to change or add dependencies:
+
+```jsx
+customSetup={{
+  dependencies: {
+    react: '^18.2.0',
+    'react-dom': '^18.2.0',
+    'chart.js': 'latest',
+    'react-chartjs-2': 'latest',
+    // Add more dependencies here
+  },
+  entry: '/App.jsx', // Entry file
+}}
+```
+
+### Managing Files
+
+Add or modify files using the `files` object:
+
+```jsx
+files={{
+  '/App.jsx': {
+    code: appCode, // Reference a variable containing the code
+  },
+  '/LineChart.jsx': {
+    code: lineChartCode,
+  },
+  // Add more files as needed
+  '/NewComponent.jsx': {
+    code: `export const NewComponent = () => { return <div>New Component</div> }`,
+  },
+}}
+```
+
+Each file requires a path key and a code property containing the file contents.
+
+## Requirements
+
+- Node.js 16+
+- pnpm (recommended) or npm
+
+## License
+
+MIT
